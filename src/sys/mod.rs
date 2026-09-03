@@ -61,6 +61,12 @@ cfg_os_poll! {
     pub use self::unix::*;
 }
 
+#[cfg(target_os = "scarlet")]
+cfg_os_poll! {
+    mod scarlet;
+    pub(crate) use self::scarlet::*;
+}
+
 #[cfg(windows)]
 cfg_os_poll! {
     mod windows;

@@ -8,7 +8,7 @@
 //! [portability guidelines]: ../struct.Poll.html#portability
 
 use std::net::{Ipv4Addr, Ipv6Addr, SocketAddr};
-#[cfg(any(unix, target_os = "wasi"))]
+#[cfg(any(unix, target_os = "scarlet", target_os = "wasi"))]
 use std::os::fd::{AsFd, AsRawFd, BorrowedFd, FromRawFd, IntoRawFd, OwnedFd, RawFd};
 // TODO: once <https://github.com/rust-lang/rust/issues/126198> is fixed this
 // can use `std::os::fd` and be merged with the above.
@@ -583,7 +583,7 @@ impl UdpSocket {
     /// #
     /// # fn main() -> Result<(), Box<dyn Error>> {
     /// use std::io;
-    /// #[cfg(any(unix, target_os = "wasi"))]
+    /// #[cfg(any(unix, target_os = "scarlet", target_os = "wasi"))]
     /// use std::os::fd::AsRawFd;
     /// #[cfg(windows)]
     /// use std::os::windows::io::AsRawSocket;
@@ -653,21 +653,21 @@ impl fmt::Debug for UdpSocket {
     }
 }
 
-#[cfg(any(unix, target_os = "hermit", target_os = "wasi"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "scarlet", target_os = "wasi"))]
 impl IntoRawFd for UdpSocket {
     fn into_raw_fd(self) -> RawFd {
         self.inner.into_inner().into_raw_fd()
     }
 }
 
-#[cfg(any(unix, target_os = "hermit", target_os = "wasi"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "scarlet", target_os = "wasi"))]
 impl AsRawFd for UdpSocket {
     fn as_raw_fd(&self) -> RawFd {
         self.inner.as_raw_fd()
     }
 }
 
-#[cfg(any(unix, target_os = "hermit", target_os = "wasi"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "scarlet", target_os = "wasi"))]
 impl FromRawFd for UdpSocket {
     /// Converts a `RawFd` to a `UdpSocket`.
     ///
@@ -680,21 +680,21 @@ impl FromRawFd for UdpSocket {
     }
 }
 
-#[cfg(any(unix, target_os = "hermit", target_os = "wasi"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "scarlet", target_os = "wasi"))]
 impl From<UdpSocket> for OwnedFd {
     fn from(udp_socket: UdpSocket) -> Self {
         udp_socket.inner.into_inner().into()
     }
 }
 
-#[cfg(any(unix, target_os = "hermit", target_os = "wasi"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "scarlet", target_os = "wasi"))]
 impl AsFd for UdpSocket {
     fn as_fd(&self) -> BorrowedFd<'_> {
         self.inner.as_fd()
     }
 }
 
-#[cfg(any(unix, target_os = "hermit", target_os = "wasi"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "scarlet", target_os = "wasi"))]
 impl From<OwnedFd> for UdpSocket {
     /// Converts a `RawFd` to a `UdpSocket`.
     ///
@@ -767,7 +767,7 @@ impl From<UdpSocket> for net::UdpSocket {
         // mio::net::UdpSocket which ensures that we actually pass in a valid file
         // descriptor/socket
         unsafe {
-            #[cfg(any(unix, target_os = "hermit", target_os = "wasi"))]
+            #[cfg(any(unix, target_os = "hermit", target_os = "scarlet", target_os = "wasi"))]
             {
                 net::UdpSocket::from_raw_fd(socket.into_raw_fd())
             }
