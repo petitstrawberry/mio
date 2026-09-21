@@ -50,8 +50,8 @@ log = { version = "0.4.8", optional = true }
 libc = "0.2.183"
 
 [target.'cfg(target_os = "scarlet")'.dependencies]
-scarlet-os = { git = "https://github.com/petitstrawberry/Scarlet.git", branch = "dev", default-features = false, features = ["std"] }
-socket2 = { git = "https://github.com/petitstrawberry/socket2.git", branch = "scarlet", version = "0.6.5", features = ["all"] }
+scarlet-os = { git = "https://github.com/petitstrawberry/Scarlet.git", rev = "b3d2a55740a3d2ca49daad0ec7baba233f706f7a", default-features = false, features = ["std"] }
+socket2 = { git = "https://github.com/petitstrawberry/socket2.git", rev = "15f0140af367c76befdab2606c7b643f29552bfd", version = "0.6.5", features = ["all"] }
 
 [target.'cfg(windows)'.dependencies.windows-sys]
 version = "0.61"
